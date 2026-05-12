@@ -1,26 +1,4 @@
-const dbConnection = require("./sqlite");
-
-dbConnection
-  .getDbConnection()
-  .then((db) => {
-    init(db);
-  })
-  .catch((err) => {
-    console.log(err);
-    throw err;
-  });
-
-let _db;
-
-function init(db) {
-    _db = db;
-}
-
 const knex_db = require("./db-config");
-
-const dbinitialize = async () => {
-    testBase.resetDatabase(knex_db);
-}
 
 const readTeachers = async () => {
     const sql = `SELECT * FROM teacher`
@@ -134,11 +112,11 @@ const addStudent = async (id, name, age, hometown) => {
     });
 }
 
-const updateStudent = async (name, age, id, hometown) => {
+const updateStudent = async (name, age, hometown, id) => {
     const sql = `UPDATE student SET name=?, age=?, hometown=? WHERE id=?`
     return new Promise((resolve, reject) => {
         knex_db
-            .raw(sql, [name, age, id, hometown])
+            .raw(sql, [name, age, hometown, id])
             .then(() => {
                 resolve({status: "Successfully updated Student"})
             })
@@ -146,7 +124,7 @@ const updateStudent = async (name, age, id, hometown) => {
                 reject(error);
             });
     });
-} 
+}
 
 const deleteStudent = async (id) => {
     const sql = `DELETE FROM student WHERE id = ?`
@@ -172,6 +150,5 @@ module.exports = {
     readStudentInfo,
     readTeacherInfo,
     updateStudent,
-    updateTeacher,
-    dbinitialize
+    updateTeacher
 };

@@ -3,12 +3,12 @@ exports.up = function (knex) {
       .createTable("teacher", function (table) {
         table.increments("id").notNullable().primary();
         table.string("name", 255);
-        table.int("age");
+        table.integer("age");
       })
       .createTable("student", function (table) {
         table.increments("id").notNullable().primary();
         table.string("name", 255);
-        table.int("age");
+        table.integer("age");
         table.string("hometown", 255);
       })
       .createTable("dummyData", function (table) {
@@ -24,4 +24,3 @@ exports.up = function (knex) {
       .dropTable("student")
       .dropTable("dummyData")
   };
-  
